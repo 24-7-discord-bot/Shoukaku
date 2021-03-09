@@ -17,7 +17,7 @@ The ShipGirl Project, feat Shoukaku; ⓒ Kancolle
 
 ### About this fork
 
-This fork is a eris convertion of the original lib.
+This fork is an eris conversion of the original lib.
 
 
 ### Features
@@ -46,7 +46,7 @@ npm i github:24-7-discord-bot/Shoukaku
 
 or from the github npm repo (requires auth)
 ```
-npm i @24-7-discord-bot/Shoukaku --registry=https://npm.pkg.github.com/24-7-discord-bot
+npm i @24-7-discord-bot/shoukaku --registry=https://npm.pkg.github.com/24-7-discord-bot
 ```
 
 
