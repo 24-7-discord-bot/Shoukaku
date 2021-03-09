@@ -88,7 +88,7 @@ class ShoukakuLink extends EventEmitter {
     }
 
     get guild() {
-        return this.node.shoukaku.client.guilds.cache.get(this.guildID);
+        return this.node.shoukaku.client.guilds.get(this.guildID);
     }
 
     /**
@@ -218,7 +218,7 @@ class ShoukakuLink extends EventEmitter {
 
     send(d, important = false) {
         if (!this.guild) return;
-        this.guild.shard.send({ op: 4, d }, important);
+        this.guild.shard.sendWS(4, d, important);
     }
 
     voiceUpdate() {

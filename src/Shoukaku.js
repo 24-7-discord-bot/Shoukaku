@@ -39,6 +39,11 @@ class Shoukaku extends EventEmitter {
         */
         this.id = null;
         /**
+        * The shard count of the bot that is being governed by Shoukaku.
+        * @type {number}
+        */
+        this.shardCount = 1;
+        /**
         * The current nodes that is being handled by Shoukaku.
         * @type {Map<string, ShoukakuSocket>}
         */
@@ -47,7 +52,7 @@ class Shoukaku extends EventEmitter {
         Object.defineProperty(this, 'options', { value: mergeDefault(ShoukakuOptions, options) });
 
         this.client.once('ready', () => this._onClientReady(nodes));
-        this.client.on('raw', event => this._onClientRaw(event));
+        this.client.on('rawWS', event => this._onClientRaw(event));
     }
     /**
      * Gets all the Players that is currently active on all nodes in this instance.
@@ -118,11 +123,11 @@ class Shoukaku extends EventEmitter {
     * @memberof Shoukaku
     * @returns {void}
     */
-    addNode(nodeOptions) {
+   addNode(nodeOptions, resumable = false) {
         if (!this.id)
             throw new ShoukakuError('The lib is not yet ready, make sure to initialize Shoukaku before the library fires "ready" event');
         const node = new ShoukakuSocket(this, nodeOptions);
-        node.connect(this.id, false);
+        node.connect(this.id, this.shardCount, resumable);
         node.on('debug', (...args) => this.emit('debug', ...args));
         node.on('error', (...args) => this.emit('error', ...args));
         node.on('ready', (...args) => this._ready(...args));
@@ -234,7 +239,11 @@ class Shoukaku extends EventEmitter {
 
     _onClientReady(nodes) {
         this.id = this.client.user.id;
-        for (const node of nodes) this.addNode(mergeDefault(ShoukakuNodeOptions, node));
+        if (this.client.shards) {
+            this.shardCount = this.client.shards.size || this.client.shards.size;
+            if (typeof this.shardCount !== 'number') this.shardCount = 1;
+        }
+        for (const node of nodes) this.addNode(mergeDefault(ShoukakuNodeOptions, node), this.options.resumable ? this.options.resumable : false);
     }
 
     _onClientRaw(packet) {

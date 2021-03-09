@@ -107,18 +107,20 @@ class ShoukakuSocket extends EventEmitter {
     /**
     * Connects this Socket.
     * @param {string} id Your Bot's / Client user id.
+    * @param {number} shardCount Your Bot's / Client shard count.
     * @param {boolean|string} resumable Determines if we should try to resume the connection.
     * @memberof ShoukakuSocket
     * @returns {void}
     */
-    connect(id, resumable) {
+    connect(id, shardCount, resumable) {
         this.state = CONNECTING;
         this.emit('debug', this.name, `[Socket] Connecting => Node ${this.name}`);
         const headers = {
             'Client-Name': this.userAgent,
             'User-Agent': this.userAgent,
             'Authorization': this.auth,
-            'User-Id': id
+            'User-Id': id,
+            'Num-Shards': shardCount
         };
         if (resumable) headers['Resume-Key'] = resumable;
         this.ws = new Websocket(this.url, { headers });
@@ -150,7 +152,7 @@ class ShoukakuSocket extends EventEmitter {
             throw new ShoukakuError('This player is not yet connected, please wait for it to connect');
         }
 
-        const guild = this.shoukaku.client.guilds.cache.get(options.guildID);
+        const guild = this.shoukaku.client.guilds.get(options.guildID);
         if (!guild)
             throw new ShoukakuError('Guild not found, cannot continue creating this connection.');
 

@@ -15,6 +15,11 @@
 The ShipGirl Project, feat Shoukaku; ⓒ Kancolle
 ```
 
+### About this fork
+
+This fork is a eris convertion of the original lib.
+
+
 ### Features
 
 ✅ Straightforward
@@ -31,14 +36,19 @@ For Lavalink `Master` branch with commits no newer than https://github.com/Frede
 ```
 npm i shoukaku@1.5.2
 ```
+_not supported by this fork_
+
 For Lavalink `Dev` branch, or anything that doesn't fall into the scope of commits above
+
 ```
-npm i shoukaku@1.6.x // Replace x with the latest semver patch available
+npm i github:24-7-discord-bot/Shoukaku
 ```
-If you live on the edge, and want any update available on Shoukaku
+
+or from the github npm repo (requires auth)
 ```
-npm i Deivu/Shoukaku
+npm i @24-7-discord-bot/Shoukaku --registry=--registry=https://npm.pkg.github.com/24-7-discord-bot
 ```
+
 
 ### Documentation
 

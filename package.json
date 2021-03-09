@@ -1,7 +1,7 @@
 {
-  "name": "shoukaku",
+  "name": "@24-7-discord-bot/shoukaku",
   "version": "1.6.2",
-  "description": "A lavalink client for Discord.js v12 only",
+  "description": "A lavalink client for eris",
   "main": "index.js",
   "scripts": {
     "doc": "docma"
@@ -14,15 +14,14 @@
     "api",
     "discord",
     "lavalink.js",
-    "discord.js",
-    "lavalink-api",
-    "weeb-library"
+    "eris",
+    "lavalink-api"
   ],
   "author": "Saya",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Deivu/Shoukaku"
+    "url": "https://github.com/24-7-discord-bot/Shoukaku"
   },
   "dependencies": {
     "abort-controller": "^3.0.0",
@@ -30,8 +29,7 @@
     "ws": "^7.4.4"
   },
   "devDependencies": {
-    "discord.js": "^12.5.1",
-    "discord.js-light": "^3.5.4",
-    "typescript": "^4.2.3"
+    "discord.js": ">=12.0.0 <13.0.0",
+    "typescript": "^4.1.3"
   }
 }
