@@ -46,7 +46,7 @@ npm i github:24-7-discord-bot/Shoukaku
 
 or from the github npm repo (requires auth)
 ```
-npm i @24-7-discord-bot/Shoukaku --registry=--registry=https://npm.pkg.github.com/24-7-discord-bot
+npm i @24-7-discord-bot/Shoukaku --registry=https://npm.pkg.github.com/24-7-discord-bot
 ```
 
 
