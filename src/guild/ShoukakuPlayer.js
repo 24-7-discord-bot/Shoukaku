@@ -213,8 +213,24 @@ class ShoukakuPlayer extends EventEmitter {
     async setVolume(volume) {
         if (Number.isNaN(volume)) throw new ShoukakuError('Please input a valid number for volume');
         volume = Math.min(5, Math.max(0, volume));
+        await this.voiceConnection.node.send({
+            op: 'volume',
+            guildId: this.voiceConnection.guildID,
+            volume: Math.round(volume * 100)
+        });
+        return this;
+    }
+    /**
+     * Sets the filter volume of your lavalink player
+     * @param {number} volume The new volume you want to set on the filter.
+     * @memberOf ShoukakuPlayer
+     * @returns {Promise<ShoukakuPlayer>}
+     */
+    async setFilterVolume(volume) {
+        if (Number.isNaN(volume)) throw new ShoukakuError('Please input a valid number for volume');
+        volume = Math.min(5, Math.max(0, volume));
         this.filters.volume = volume;
-        await this.updateFilters();
+        this.updateFilters();
         return this;
     }
     /**
