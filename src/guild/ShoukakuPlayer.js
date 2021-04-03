@@ -230,7 +230,7 @@ class ShoukakuPlayer extends EventEmitter {
         if (Number.isNaN(volume)) throw new ShoukakuError('Please input a valid number for volume');
         volume = Math.min(5, Math.max(0, volume));
         this.filters.volume = volume;
-        this.updateFilters();
+        await this.updateFilters();
         return this;
     }
     /**
