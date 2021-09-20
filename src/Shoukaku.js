@@ -123,7 +123,7 @@ class Shoukaku extends EventEmitter {
     * @memberof Shoukaku
     * @returns {void}
     */
-   addNode(nodeOptions, resumable = false) {
+    addNode(nodeOptions, resumable = false) {
         if (!this.id)
             throw new ShoukakuError('The lib is not yet ready, make sure to initialize Shoukaku before the library fires "ready" event');
         const node = new ShoukakuSocket(this, nodeOptions);

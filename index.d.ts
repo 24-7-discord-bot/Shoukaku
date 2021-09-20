@@ -1,4 +1,4 @@
-declare module 'shoukaku' {
+declare module '@24-7-discord-bot/shoukaku' {
   import { EventEmitter } from 'events';
   import { Client as DiscordClient, Base64String, Guild } from 'discord.js';
 

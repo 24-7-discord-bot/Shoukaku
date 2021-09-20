@@ -213,6 +213,7 @@ class ShoukakuPlayer extends EventEmitter {
     async setVolume(volume) {
         if (Number.isNaN(volume)) throw new ShoukakuError('Please input a valid number for volume');
         volume = Math.min(5, Math.max(0, volume));
+        this.volume = volume;
         await this.voiceConnection.node.send({
             op: 'volume',
             guildId: this.voiceConnection.guildID,
@@ -409,6 +410,9 @@ class ShoukakuPlayer extends EventEmitter {
     async resume() {
         try {
             await this.updateFilters();
+            if (this.volume) {
+                await this.setVolume(this.volume);
+            }
             if (this.track) await this.playTrack(this.track, { startTime: this.position, pause: this.paused });
             this.emit('resumed');
         } catch (error) {

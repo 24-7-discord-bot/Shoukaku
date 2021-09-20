@@ -1,6 +1,6 @@
 {
   "name": "@24-7-discord-bot/shoukaku",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "A lavalink client for eris",
   "main": "index.js",
   "scripts": {
