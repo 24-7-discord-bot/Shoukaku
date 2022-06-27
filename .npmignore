@@ -6,6 +6,7 @@ assets
 .gitignore
 .eslintrc.yml
 .eslintignore
+.npmrc
 docma.json
 package-lock.json
 README.md
