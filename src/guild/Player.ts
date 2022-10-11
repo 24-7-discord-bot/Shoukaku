@@ -137,9 +137,9 @@ export interface WebSocketClosedEvent extends PlayerEvent {
 export interface PlayerUpdate {
     op: OPCodes.PLAYER_UPDATE;
     state: {
-      connected: boolean;
-      position?: number;
-      time: number;
+        connected: boolean;
+        position?: number;
+        time: number;
     };
     guildId: string;
 }
@@ -147,14 +147,14 @@ export interface PlayerUpdate {
 export interface FilterOptions {
     volume?: number;
     equalizer?: Band[];
-    karaoke?: KaraokeSettings|null;
-    timescale?: TimescaleSettings|null;
-    tremolo?: FreqSettings|null;
-    vibrato?: FreqSettings|null;
-    rotation?: RotationSettings|null;
-    distortion?: DistortionSettings|null;
-    channelMix?: ChannelMixSettings|null;
-    lowPass?: LowPassSettings|null;
+    karaoke?: KaraokeSettings | null;
+    timescale?: TimescaleSettings | null;
+    tremolo?: FreqSettings | null;
+    vibrato?: FreqSettings | null;
+    rotation?: RotationSettings | null;
+    distortion?: DistortionSettings | null;
+    channelMix?: ChannelMixSettings | null;
+    lowPass?: LowPassSettings | null;
 }
 
 /**
@@ -163,14 +163,14 @@ export interface FilterOptions {
 export class Filters {
     public volume: number;
     public equalizer: Band[];
-    public karaoke: KaraokeSettings|null;
-    public timescale: TimescaleSettings|null;
-    public tremolo: FreqSettings|null;
-    public vibrato: FreqSettings|null;
-    public rotation: RotationSettings|null;
-    public distortion: DistortionSettings|null;
-    public channelMix: ChannelMixSettings|null;
-    public lowPass: LowPassSettings|null;
+    public karaoke: KaraokeSettings | null;
+    public timescale: TimescaleSettings | null;
+    public tremolo: FreqSettings | null;
+    public vibrato: FreqSettings | null;
+    public rotation: RotationSettings | null;
+    public distortion: DistortionSettings | null;
+    public channelMix: ChannelMixSettings | null;
+    public lowPass: LowPassSettings | null;
     /**
      * Options to initialize this filters instance with
      * @param options.volume The volume to play audio at as a decimal
@@ -265,7 +265,7 @@ export class Player extends EventEmitter {
     /**
      * ID of current track
      */
-    public track: string|null;
+    public track: string | null;
     /**
      * Pause status in current player
      */
@@ -278,6 +278,10 @@ export class Player extends EventEmitter {
      * Filters on current track
      */
     public filters: Filters;
+    /**
+     * Volume of this player
+     */
+    public volume: number;
     /**
      * @param node An instance of Node (Lavalink API wrapper)
      * @param options.guildId Guild ID in which voice channel to connect to is located
@@ -294,6 +298,7 @@ export class Player extends EventEmitter {
         this.paused = false;
         this.position = 0;
         this.filters = new Filters();
+        this.volume = 0.6;
     }
 
     /**
@@ -391,10 +396,22 @@ export class Player extends EventEmitter {
      * @returns The current player instance
      */
     public setVolume(volume: number): Player {
+        volume = Math.min(1, Math.max(0, volume));
+        this.volume = volume;
+        this.updateVolume();
+
+        return this;
+    }
+
+    /**
+     * Change the filter volume of the currently playing track
+     * @param volume Target volume as a decimal
+     * @returns The current player instance
+     */
+    async setFilterVolume(volume: number) {
         volume = Math.min(5, Math.max(0, volume));
         this.filters.volume = volume;
-        this.updateFilters();
-
+        await this.updateFilters();
         return this;
     }
 
@@ -416,7 +433,7 @@ export class Player extends EventEmitter {
      * @returns The current player instance
      */
     public setKaraoke(karaoke?: KaraokeSettings): Player {
-        this.filters.karaoke = karaoke|| null;
+        this.filters.karaoke = karaoke || null;
         this.updateFilters();
 
         return this;
@@ -567,6 +584,18 @@ export class Player extends EventEmitter {
             distortion,
             channelMix,
             lowPass
+        });
+    }
+
+    /**
+     * Update volume
+     * @internal
+     */
+    private updateVolume(): void {
+        this.node.queue.add({
+            op: OPCodes.VOLUME,
+            guildId: this.connection.guildId,
+            volume: this.volume * 100,
         });
     }
 
